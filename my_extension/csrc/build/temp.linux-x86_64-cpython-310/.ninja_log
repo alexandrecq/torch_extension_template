@@ -1,0 +1,3 @@
+# ninja log v5
+0	15505	1709170827645734844	/home/techix/software/cpp_sandbox/torch_extension/my_extension/csrc/build/temp.linux-x86_64-cpython-310/linear.o	5266fe6f3e4644a7
+16	15443	1709234910760534516	/home/techix/software/cpp_sandbox/torch_extension/my_extension/csrc/build/temp.linux-x86_64-cpython-310/linear.o	5266fe6f3e4644a7
