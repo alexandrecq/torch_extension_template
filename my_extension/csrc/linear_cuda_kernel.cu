@@ -4,7 +4,6 @@
 #include <cuda_runtime.h>
 
 #include <vector>
-// #define div_round_up(n, div) (n - 1) / div + 1
 
 template <typename T>
 inline T div_round_up(T val, T divisor) {
@@ -28,10 +27,8 @@ __global__ void linear_cuda_forward_kernel(
     scalar_t temp = 0;
     for (int k_ = 0; k_ < n_in; k_++) {
         temp += input[row * n_in + k_] * weights[col * n_in + k_];
-        if (k_ == 0) temp += bias[col];
     }
-    output[row * n_out + col] = temp;
-    // printf("linear (row, col) = (%d, %d), out: %.2f\n", row, col, output[row * n_out + col]);
+    output[row * n_out + col] = temp + bias[col];
 }
 
 torch::Tensor linear_cuda_forward(
@@ -49,8 +46,6 @@ torch::Tensor linear_cuda_forward(
   const int64_t threads = 32;
   const dim3 threadsPerBlock(threads, threads);
   const dim3 blocks(div_round_up(batch_size, threads), div_round_up(n_out, threads));
-  // printf("forward (b, in, out): (%d, %d, %d)\n", batch_size, n_in, n_out);
-  // printf("forward blocks: (%d, %d)\n", blocks.x, blocks.y);
 
   AT_DISPATCH_FLOATING_TYPES(input.type(), "linear_forward_cuda", ([&] {
     linear_cuda_forward_kernel<scalar_t><<<blocks, threadsPerBlock>>>(
