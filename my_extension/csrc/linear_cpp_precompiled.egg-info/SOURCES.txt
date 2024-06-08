@@ -1,6 +1,0 @@
-linear.cpp
-setup.py
-linear_cpp_precompiled.egg-info/PKG-INFO
-linear_cpp_precompiled.egg-info/SOURCES.txt
-linear_cpp_precompiled.egg-info/dependency_links.txt
-linear_cpp_precompiled.egg-info/top_level.txt
