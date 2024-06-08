@@ -4,7 +4,7 @@
 at::Tensor linear_forward(
     torch::Tensor input,
     torch::Tensor weights,
-    torch::Tensor bias) 
+    torch::Tensor bias)
 {
     torch::Tensor output = torch::addmm(bias, input, weights.t());
     return output;
@@ -13,7 +13,7 @@ at::Tensor linear_forward(
 std::vector<torch::Tensor> linear_backward(
     torch::Tensor grad_output,
     torch::Tensor input,
-    torch::Tensor weights) 
+    torch::Tensor weights)
 {
     torch::Tensor grad_weights = grad_output.t().mm(input);
     torch::Tensor grad_bias = grad_output.sum(0, true);

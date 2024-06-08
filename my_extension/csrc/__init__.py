@@ -1,7 +1,6 @@
 import os
-from setuptools import setup, Extension
 
-from torch.utils.cpp_extension import CppExtension, CUDAExtension, BuildExtension, load
+from torch.utils.cpp_extension import load
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))

@@ -18,12 +18,12 @@ __global__ void linear_cuda_forward_kernel(
     scalar_t* __restrict__ output,
     size_t batch_size,
     size_t n_in,
-    size_t n_out) 
+    size_t n_out)
 {
     const int row = blockIdx.y * blockDim.y + threadIdx.y;
     const int col = blockIdx.x * blockDim.x + threadIdx.x;
     if (row >= batch_size || col >= n_out) return;
-    // output = input @ weights.T + bias
+
     scalar_t temp = 0;
     for (int k_ = 0; k_ < n_in; k_++) {
         temp += input[row * n_in + k_] * weights[col * n_in + k_];
@@ -70,13 +70,12 @@ __global__ void linear_cuda_backward_kernel(
     scalar_t* __restrict__ grad_bias,
     size_t batch_size,
     size_t n_in,
-    size_t n_out) 
+    size_t n_out)
 {
     const int row = blockIdx.y * blockDim.y + threadIdx.y;
     const int col = blockIdx.x * blockDim.x + threadIdx.x;
     if (row >= n_out || col >= n_in) return;
-    // grad_weights = grad_output.T @ input
-    // grad_bias = grad_output.sum(0, true);
+
     scalar_t temp = 0;
     scalar_t bias_temp = 0;
     for (int k_ = 0; k_ < batch_size; k_++) {

@@ -1,20 +1,18 @@
+## based on:
+## https://pytorch.org/tutorials/advanced/cpp_extension.html
+
 import torch
 from torch.autograd import Function
 
-# import linear_cpp_precompiled  # from 'setup.py'
-from .csrc import _C, _CU
+# import linear_cpp_precompiled  # requires running `setup.py`
+from .csrc import _C, _CU  # loaded by csrc/__init__.py
 
 
 def linear_forward(input, weights, bias):
-    # return (weights @ input.T + bias[..., None]).T
     return input @ weights.T + bias
 
 
 def linear_backward(grad_output, input, weights):
-    n_batch = grad_output.shape[0]
-    # d_input = (weights.T @ grad_output.T).T
-    # d_weights = 1 / n_batch * (grad_output.T @ input)
-    # d_bias = 1 / n_batch * grad_output.sum(dim=0, keepdims=True)
     d_weights = grad_output.T @ input
     d_bias = grad_output.sum(dim=0, keepdims=True)
     return d_weights, d_bias
